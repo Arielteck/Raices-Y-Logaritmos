@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 
@@ -20,7 +21,7 @@ import java.util.Arrays;
  */
 public class Interfaz extends javax.swing.JFrame {
 
-
+public static List<String> list = new ArrayList<String>();
 
     /**
      * Creates new form Interfaz
@@ -127,13 +128,14 @@ public class Interfaz extends javax.swing.JFrame {
 
          String num1 = NumeroCalculo.getText();
        
+        list = Arrays.asList(num1.split(","));
         
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(num1.split(",")));
         System.out.println(list);
         System.out.println(list.size());
+        System.out.println(9 % 2);
         
         Constructor ct = new Constructor();
-        ct.setNumero(list);
+
          
          
         
@@ -149,7 +151,7 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         
-       Interfaz panel = new Interfaz();
+       final Interfaz panel = new Interfaz();
        
 
         /* Create and display the form */
