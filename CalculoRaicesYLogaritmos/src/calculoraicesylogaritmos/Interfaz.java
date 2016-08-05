@@ -134,7 +134,6 @@ public static List<String> list = new ArrayList<String>();
         System.out.println(list.size());
         System.out.println(9 % 2);
         
-        Constructor ct = new Constructor();
 
          
          

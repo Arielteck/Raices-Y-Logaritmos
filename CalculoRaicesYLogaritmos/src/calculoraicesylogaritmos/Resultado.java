@@ -5,6 +5,7 @@
  */
 package calculoraicesylogaritmos;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,13 +37,21 @@ public class Resultado extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         resultado = new javax.swing.JLabel();
         boton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        boton.setText("jButton1");
+        boton.setText("Show");
         boton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Return");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -56,7 +65,9 @@ public class Resultado extends javax.swing.JFrame {
                         .addGap(57, 57, 57)
                         .addComponent(resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
+                        .addContainerGap()
+                        .addComponent(jButton1)
+                        .addGap(64, 64, 64)
                         .addComponent(boton)))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
@@ -66,7 +77,9 @@ public class Resultado extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
-                .addComponent(boton)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(boton)
+                    .addComponent(jButton1))
                 .addGap(25, 25, 25))
         );
 
@@ -93,23 +106,51 @@ public class Resultado extends javax.swing.JFrame {
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
         //doble(suma) de 3 primeros numeros = producto 3 ultimos numeros
         ArrayList<String> num = new ArrayList<String>(in.list);
-        int i;
+        System.out.println(Integer.parseInt(num.get(0)));
 
-        for (i = 0; num.size() < 3; i++) {
+        if (num.size() < 3) {
+            System.out.println(Integer.parseInt(num.get(0)));
+            System.out.println(Integer.parseInt(num.get(1)));
+
+
+        } else if (2 * (Integer.parseInt(num.get(0)) + Integer.parseInt(num.get(1)) + Integer.parseInt(num.get(2)))
+                == Integer.parseInt(num.get(num.size() - 1)) * Integer.parseInt(num.get(num.size() - 2))
+                * Integer.parseInt(num.get(num.size() - 3))) {
             
-            System.out.println(Integer.parseInt(num.get(i)));
-           
-            }
-        
+            System.out.println("Funciona!");
+        } else {
+            System.out.println("nop");
 
+        }
+
+//        for (i = 0; i < 2 && num.size() < 3; i++) {
+//            if(num.isEmpty()){
+//                System.out.println("No mas");
+//               break;
+//           }else{
+//            System.out.println(Integer.parseInt(num.get(i)));
+//          
+//            }
     //if (Integer.parseInt(num.get(i)) % 2 != 0) {
-                   // System.out.println("El logaritmo de " + num.get(i) + " es " +Math.log10(Integer.parseInt(num.get(i))));
+        // System.out.println("El logaritmo de " + num.get(i) + " es " +Math.log10(Integer.parseInt(num.get(i))));
         //System.out.println(num);
         // resultado.setText(list.toString());
         //System.out.println(list.size());
 
     }//GEN-LAST:event_botonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+         new Interfaz().setVisible(true);
+                in.setMaximumSize(new Dimension(400,200));
+                CloseFrame();
+                
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void CloseFrame(){
+    super.dispose();
+}
     /**
      * @param args the command line arguments
      */
@@ -147,6 +188,7 @@ public class Resultado extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel resultado;
     // End of variables declaration//GEN-END:variables
