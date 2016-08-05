@@ -16,7 +16,7 @@ public class Resultado extends javax.swing.JFrame {
 
     Interfaz in = new Interfaz();
     Constructor ct = new Constructor();
-    
+
     /**
      * Creates new form Resultado
      */
@@ -91,18 +91,25 @@ public class Resultado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+        //doble(suma) de 3 primeros numeros = producto 3 ultimos numeros
+        ArrayList<String> num = new ArrayList<String>(in.list);
+        int i;
 
-        Object[] num1 = ct.getNumero().toArray().toString().split(",");
+        for (i = 0; num.size() < 3; i++) {
+            
+            System.out.println(Integer.parseInt(num.get(i)));
+           
+            }
         
 
-        System.out.println(num1);
-       // resultado.setText(list.toString());
+    //if (Integer.parseInt(num.get(i)) % 2 != 0) {
+                   // System.out.println("El logaritmo de " + num.get(i) + " es " +Math.log10(Integer.parseInt(num.get(i))));
+        //System.out.println(num);
+        // resultado.setText(list.toString());
         //System.out.println(list.size());
 
     }//GEN-LAST:event_botonActionPerformed
 
- 
-        
     /**
      * @param args the command line arguments
      */
