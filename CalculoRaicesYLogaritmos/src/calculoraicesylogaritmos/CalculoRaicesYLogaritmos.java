@@ -5,16 +5,24 @@
  */
 package calculoraicesylogaritmos;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  *
  * @author Arielo
  */
 public class CalculoRaicesYLogaritmos {
+    public static Connection c = null;
+    public static Statement stmt = null;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+     
         // TODO code application logic herejava.awt.EventQueue.invokeLater(new Runnable() {
             
                 new Interfaz().setVisible(true);

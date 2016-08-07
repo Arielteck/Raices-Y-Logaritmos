@@ -5,9 +5,13 @@
  */
 package calculoraicesylogaritmos;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -15,14 +19,23 @@ import java.util.Arrays;
  */
 public class Resultado extends javax.swing.JFrame {
 
+    int i;
+    DefaultListModel model = new DefaultListModel();
     Interfaz in = new Interfaz();
-    Constructor ct = new Constructor();
+    Container contentpane;
+    ArrayList<String> num = new ArrayList<>(Interfaz.list);
+    double sqr;
+    double loga;
+    boolean isIgual;
 
     /**
      * Creates new form Resultado
      */
     public Resultado() {
+
         initComponents();
+        numIntro.setText("Los numeros introducidos son " + num);
+
     }
 
     /**
@@ -38,20 +51,54 @@ public class Resultado extends javax.swing.JFrame {
         resultado = new javax.swing.JLabel();
         boton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lista = new javax.swing.JList<>();
+        btnAsc = new javax.swing.JButton();
+        btnDesc = new javax.swing.JButton();
+        btnAyuda = new javax.swing.JButton();
+        numIntro = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Calculo de Raices y Logaritmos");
+        setMinimumSize(new java.awt.Dimension(420, 250));
 
-        boton.setText("Show");
+        jPanel1.setMinimumSize(new java.awt.Dimension(342, 192));
+        jPanel1.setPreferredSize(new java.awt.Dimension(342, 192));
+
+        boton.setText("Calcular");
         boton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Return");
+        jButton1.setText("Retornar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        lista.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lista.setMinimumSize(new java.awt.Dimension(99, 322));
+        lista.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                listaComponentAdded(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lista);
+
+        btnAsc.setText("Ascendente");
+        btnAsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAscActionPerformed(evt);
+            }
+        });
+
+        btnDesc.setText("Descendente");
+        btnDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescActionPerformed(evt);
             }
         });
 
@@ -59,79 +106,204 @@ public class Resultado extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addGap(64, 64, 64)
-                        .addComponent(boton)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                        .addComponent(resultado)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(boton)
+                                .addGap(20, 20, 20))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(btnAsc)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDesc)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(boton)
-                    .addComponent(jButton1))
-                .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 37, Short.MAX_VALUE)
+                        .addComponent(resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(boton))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDesc)
+                            .addComponent(btnAsc))))
+                .addContainerGap())
         );
+
+        btnAyuda.setText("Ayuda");
+        btnAyuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAyudaActionPerformed(evt);
+            }
+        });
+
+        numIntro.setText("Presione mostrar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(btnAyuda)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(numIntro)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(numIntro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAyuda)
                 .addContainerGap())
         );
+
+        numIntro.getAccessibleContext().setAccessibleName("Presione mostrar.");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
         //doble(suma) de 3 primeros numeros = producto 3 ultimos numeros
-        ArrayList<String> num = new ArrayList<String>(in.list);
-        System.out.println(Integer.parseInt(num.get(0)));
+        loga = 0;
+        sqr = 0;
+        model.removeAllElements();
+        
+        isIgual = 2 * (Integer.parseInt(num.get(0)) + Integer.parseInt(num.get(1))
+                    + Integer.parseInt(num.get(2))) == Integer.parseInt(num.get(num.size() - 1))
+                    * Integer.parseInt(num.get(num.size() - 2))
+                    * Integer.parseInt(num.get(num.size() - 3));
+        
+            System.out.println(isIgual);
 
-        if (num.size() < 3) {
-            System.out.println(Integer.parseInt(num.get(0)));
-            System.out.println(Integer.parseInt(num.get(1)));
-
-
-        } else if (2 * (Integer.parseInt(num.get(0)) + Integer.parseInt(num.get(1)) + Integer.parseInt(num.get(2)))
-                == Integer.parseInt(num.get(num.size() - 1)) * Integer.parseInt(num.get(num.size() - 2))
-                * Integer.parseInt(num.get(num.size() - 3))) {
-            
-            System.out.println("Funciona!");
-        } else {
-            System.out.println("nop");
+//        System.out.println((2 * (Integer.parseInt(num.get(0)) + Integer.parseInt(num.get(1)) + Integer.parseInt(num.get(2)))));
+//        System.out.println(Integer.parseInt(num.get(num.size() - 1)) * Integer.parseInt(num.get(num.size() - 2))
+//                * Integer.parseInt(num.get(num.size() - 3)));
+        System.out.println(num.size());
+        if (num.size() <= 2) {
+            for (int j = 0; num.size() <= 2; j++) {
+                if (j >= num.size()) {
+                    model.addElement("La sumatoria de los logaritmos es "
+                            + loga);
+                    break;
+                } else {
+                    model.addElement("El logaritmo de "
+                            + Integer.parseInt(num.get(j)) + " es "
+                            + Math.log10(Integer.parseInt(num.get(j))));
+                    loga += Math.log10(Integer.parseInt(num.get(j)));
+                }
+            }
 
         }
+      
 
-//        for (i = 0; i < 2 && num.size() < 3; i++) {
-//            if(num.isEmpty()){
-//                System.out.println("No mas");
-//               break;
-//           }else{
-//            System.out.println(Integer.parseInt(num.get(i)));
-//          
-//            }
-    //if (Integer.parseInt(num.get(i)) % 2 != 0) {
+            
+        
+
+            if (isIgual == true) {
+
+                for (int i = 0; num.size() >= 3; i++) {
+                    Comparator comparator = Collections.reverseOrder();
+                    Collections.sort(num, comparator);
+
+                    Collections.sort(num, new Comparator<String>() {
+                        public int compare(String o1, String o2) {
+                            return extractInt(o1) - extractInt(o2);
+                        }
+
+                        int extractInt(String s) {
+                            String num = s.replaceAll("\\D", "");
+                            // return 0 if no digits found
+                            return num.isEmpty() ? 0 : Integer.parseInt(num);
+                        }
+                    });
+
+                    if (i >= num.size()) {
+                        model.addElement("La sumatoria de las raices es "
+                                + sqr);
+                        break;
+                    } else if (Integer.parseInt(num.get(i)) % 2 == 0) {
+
+                        System.out.println(num);
+
+                        model.addElement("La raiz cuadrada de "
+                                + Integer.parseInt(num.get(i)) + " es "
+                                + Math.sqrt(Integer.parseInt(num.get(i))));
+                        System.out.println(Math.sqrt(Integer.parseInt(num.get(i))));
+                        sqr += Math.sqrt(Integer.parseInt(num.get(i)));
+
+                    }
+                }
+            }
+            if (isIgual == false) {
+
+                for (int i = 0; num.size() >= 3; i++) {
+                    Comparator comparator = Collections.reverseOrder();
+                    Collections.sort(num, comparator);
+                    if (i >= num.size()) {
+                        model.addElement("La sumatoria de los logaritmos es "
+                                + loga);
+                        break;
+                    } else if (Integer.parseInt(num.get(i)) % 2 != 0) {
+
+                        Collections.sort(num, new Comparator<String>() {
+                            public int compare(String o1, String o2) {
+                                return extractInt(o2) - extractInt(o1);
+                            }
+
+                            int extractInt(String s) {
+                                String num = s.replaceAll("\\D", "");
+                                // return 0 if no digits found
+                                return num.isEmpty() ? 0 : Integer.parseInt(num);
+                            }
+                        });
+
+                        model.addElement("El logaritmo de "
+                                + Integer.parseInt(num.get(i)) + " es "
+                                + Math.log10(Integer.parseInt(num.get(i))));
+
+                        loga += Math.log10(Integer.parseInt(num.get(i)));
+
+//                    System.out.println(Integer.parseInt(num.get(i)));
+//                    System.out.println(Math.log10(Integer.parseInt(num.get(i))));
+                    }
+                }
+            
+        }
+        lista.setModel(model);
+
+        //if (Integer.parseInt(num.get(i)) % 2 != 0) {
         // System.out.println("El logaritmo de " + num.get(i) + " es " +Math.log10(Integer.parseInt(num.get(i))));
         //System.out.println(num);
         // resultado.setText(list.toString());
@@ -141,55 +313,262 @@ public class Resultado extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-         new Interfaz().setVisible(true);
-                in.setMaximumSize(new Dimension(400,200));
-                CloseFrame();
-                
+        num.clear();
+        System.out.println(num);
+
+        new Interfaz().setVisible(true);
+        in.setMaximumSize(new Dimension(0, 0));
+        CloseFrame();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void CloseFrame(){
-    super.dispose();
-}
+    private void listaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_listaComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listaComponentAdded
+
+    private void btnAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAyudaActionPerformed
+        // TODO add your handling code here:
+        new Ayuda().setVisible(true);
+
+    }//GEN-LAST:event_btnAyudaActionPerformed
+
+    private void btnAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAscActionPerformed
+        // TODO add your handling code here:
+
+        model.removeAllElements();
+        loga = 0;
+        sqr = 0;
+        
+         if (num.size() <= 2) {
+            for (int j = 0; num.size() <= 2; j++) {
+                if (j >= num.size()) {
+                    model.addElement("La sumatoria de los logaritmos es "
+                            + loga);
+                    break;
+                } else {
+                    model.addElement("El logaritmo de "
+                            + Integer.parseInt(num.get(j)) + " es "
+                            + Math.log10(Integer.parseInt(num.get(j))));
+                    loga += Math.log10(Integer.parseInt(num.get(j)));
+                }
+            }
+
+        }
+         
+        if (isIgual == true) {
+
+            for (int i = 0; num.size() >= 3; i++) {
+                Comparator comparator = Collections.reverseOrder();
+                Collections.sort(num, comparator);
+
+                Collections.sort(num, new Comparator<String>() {
+                    public int compare(String o1, String o2) {
+                        return extractInt(o1) - extractInt(o2);
+                    }
+
+                    int extractInt(String s) {
+                        String num = s.replaceAll("\\D", "");
+                        // return 0 if no digits found
+                        return num.isEmpty() ? 0 : Integer.parseInt(num);
+                    }
+                });
+
+                if (i >= num.size()) {
+                    model.addElement("La sumatoria de las raices es "
+                            + sqr);
+                    break;
+                } else if (Integer.parseInt(num.get(i)) % 2 == 0) {
+
+                    System.out.println(num);
+
+                    model.addElement("La raiz cuadrada de "
+                            + Integer.parseInt(num.get(i)) + " es "
+                            + Math.sqrt(Integer.parseInt(num.get(i))));
+
+                    sqr += Math.sqrt(Integer.parseInt(num.get(i)));
+
+//                    System.out.println(Integer.parseInt(num.get(i)));
+//                    System.out.println(Math.log10(Integer.parseInt(num.get(i))));
+                }
+            }
+        }
+
+        if (isIgual == false) {
+
+            for (int i = 0; num.size() >= 3; i++) {
+
+                Comparator comparator = Collections.reverseOrder();
+                Collections.sort(num, comparator);
+//                    System.out.println("aaaaaaah " + Integer.parseInt(num.get(i))+" "+ Integer.parseInt(num.get(i)) % 2);
+
+                Collections.sort(num, new Comparator<String>() {
+                    public int compare(String o1, String o2) {
+                        return extractInt(o1) - extractInt(o2);
+                    }
+
+                    int extractInt(String s) {
+                        String num = s.replaceAll("\\D", "");
+                        // return 0 if no digits found
+                        return num.isEmpty() ? 0 : Integer.parseInt(num);
+                    }
+                });
+
+                if (i >= num.size()) {
+                    model.addElement("La sumatoria de los logaritmos es "
+                            + loga);
+                    break;
+                } else if (Integer.parseInt(num.get(i)) % 2 != 0) {
+
+                    System.out.println(num);
+
+                    model.addElement("El logaritmo de "
+                            + Integer.parseInt(num.get(i)) + " es "
+                            + Math.log10(Integer.parseInt(num.get(i))));
+
+                    loga += Math.log10(Integer.parseInt(num.get(i)));
+
+//                    System.out.println(Integer.parseInt(num.get(i)));
+//                    System.out.println(Math.log10(Integer.parseInt(num.get(i))));
+                }
+            }
+
+        }
+
+        lista.setModel(model);
+
+    }//GEN-LAST:event_btnAscActionPerformed
+
+    private void btnDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescActionPerformed
+        // TODO add your handling code here:
+
+        model.removeAllElements();
+        loga = 0;
+        sqr = 0;
+        
+         if (num.size() <= 2) {
+            for (int j = 0; num.size() <= 2; j++) {
+                if (j >= num.size()) {
+                    model.addElement("La sumatoria de los logaritmos es "
+                            + loga);
+                    break;
+                } else {
+                    model.addElement("El logaritmo de "
+                            + Integer.parseInt(num.get(j)) + " es "
+                            + Math.log10(Integer.parseInt(num.get(j))));
+                    loga += Math.log10(Integer.parseInt(num.get(j)));
+                }
+            }
+
+        }
+         
+        if (isIgual == true) {
+
+            for (int i = 0; num.size() >= 3; i++) {
+                 Comparator comparator = Collections.reverseOrder();
+                    Collections.sort(num, comparator);
+                    
+
+                    Collections.sort(num, new Comparator<String>() {
+                        public int compare(String o1, String o2) {
+                            return extractInt(o2) - extractInt(o1);
+                        }
+
+                        int extractInt(String s) {
+                            String num = s.replaceAll("\\D", "");
+                            // return 0 if no digits found
+                            return num.isEmpty() ? 0 : Integer.parseInt(num);
+                        }
+                    });
+
+                if (i >= num.size()) {
+                    model.addElement("La sumatoria de las raices es "
+                            + sqr);
+                    break;
+                } else if (Integer.parseInt(num.get(i)) % 2 == 0) {
+                  
+                    System.out.println(num);
+
+                    model.addElement("La raiz cuadrada de "
+                            + Integer.parseInt(num.get(i)) + " es "
+                            + Math.sqrt(Integer.parseInt(num.get(i))));
+
+                    sqr += Math.sqrt(Integer.parseInt(num.get(i)));
+
+//                    System.out.println(Integer.parseInt(num.get(i)));
+//                    System.out.println(Math.log10(Integer.parseInt(num.get(i))));
+                }
+            }
+        }
+
+        if (isIgual == false) {
+
+            for (int i = 0; num.size() >= 3; i++) {
+                 Collections.sort(num, new Comparator<String>() {
+                        public int compare(String o1, String o2) {
+                            return extractInt(o2) - extractInt(o1);
+                        }
+
+                        int extractInt(String s) {
+                            String num = s.replaceAll("\\D", "");
+                            // return 0 if no digits found
+                            return num.isEmpty() ? 0 : Integer.parseInt(num);
+                        }
+                    });
+
+                if (i >= num.size()) {
+                    model.addElement("La sumatoria de los logaritmos es "
+                            + loga);
+                    break;
+                } else if (Integer.parseInt(num.get(i)) % 2 != 0) {
+                    System.out.println("aaaaaaah " + Integer.parseInt(num.get(i)) + " " + Integer.parseInt(num.get(i)) % 2);
+
+
+                    System.out.println(num);
+
+                    model.addElement("El logaritmo de "
+                            + Integer.parseInt(num.get(i)) + " es "
+                            + Math.log10(Integer.parseInt(num.get(i))));
+
+                    loga += Math.log10(Integer.parseInt(num.get(i)));
+
+//                    System.out.println(Integer.parseInt(num.get(i)));
+//                    System.out.println(Math.log10(Integer.parseInt(num.get(i))));
+                }
+            }
+
+        }
+
+        lista.setModel(model);
+    }//GEN-LAST:event_btnDescActionPerformed
+
+    public void CloseFrame() {
+        super.dispose();
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Resultado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new Resultado().setVisible(true);
+                new Resultado();
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;
+    private javax.swing.JButton btnAsc;
+    private javax.swing.JButton btnAyuda;
+    private javax.swing.JButton btnDesc;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> lista;
+    private javax.swing.JLabel numIntro;
     private javax.swing.JLabel resultado;
     // End of variables declaration//GEN-END:variables
 }
