@@ -5,15 +5,17 @@
  */
 package calculoraicesylogaritmos;
 
+import static calculoraicesylogaritmos.CalculoRaicesYLogaritmos.stmt;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -21,22 +23,48 @@ import java.util.List;
  */
 public class Interfaz extends javax.swing.JFrame {
 
-public static List<String> list = new ArrayList<String>();
+    public static List<String> list = new ArrayList<>();
+    
 
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         initComponents();
-        setTitle("My Empty Frame");
-		setSize(0,0); // default size is 0,0
-		setLocation(10,200); // default is 0,0 (top left corner)
-                
-                addWindowListener(new WindowAdapter() {
-	  	public void windowClosing(WindowEvent e) {
-		   System.exit(0);
-	  	} //windowClosing
-	} );
+        NumeroCalculo.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void changed() {
+                if (NumeroCalculo.getText().equals("")) {
+                    btnCalculo.setEnabled(false);
+                } else {
+                    btnCalculo.setEnabled(true);
+                }
+
+            }
+        });
+
+        setTitle("Calculo de Raices y Logaritmos");
+        setSize(0, 0); // default size is 0,0
+        setLocation(10, 200); // default is 0,0 (top left corner)
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            } //windowClosing
+
+        });
     }
 
     /**
@@ -52,24 +80,42 @@ public static List<String> list = new ArrayList<String>();
         jLabel1 = new javax.swing.JLabel();
         NumeroCalculo = new javax.swing.JTextField();
         btnCalculo = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(400, 200));
-        setPreferredSize(new java.awt.Dimension(353, 200));
-        setSize(new java.awt.Dimension(300, 300));
+        setPreferredSize(new java.awt.Dimension(400, 200));
+        setResizable(false);
 
-        jLabel1.setText("Introduzca una lista de números separados por comas");
+        jPanel1.setMinimumSize(new java.awt.Dimension(323, 155));
+        jPanel1.setName(""); // NOI18N
+        jPanel1.setOpaque(false);
+
+        jLabel1.setText("Introduzca una lista de números separados por comas ");
 
         NumeroCalculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NumeroCalculoActionPerformed(evt);
             }
         });
+        NumeroCalculo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                NumeroCalculoKeyTyped(evt);
+            }
+        });
 
         btnCalculo.setText("Realizar Calculo");
+        btnCalculo.setEnabled(false);
         btnCalculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCalculoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Ayuda");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -77,44 +123,39 @@ public static List<String> list = new ArrayList<String>();
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(NumeroCalculo))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(btnCalculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(88, 88, 88))
+                .addGap(0, 73, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(57, 57, 57))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(NumeroCalculo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(btnCalculo, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(NumeroCalculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(btnCalculo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCalculo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -126,48 +167,69 @@ public static List<String> list = new ArrayList<String>();
     private void btnCalculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculoActionPerformed
         // TODO add your handling code here:
 
-         String num1 = NumeroCalculo.getText();
-       
-        list = Arrays.asList(num1.split(","));
-        
-        System.out.println(list);
-        System.out.println(list.size());
-        System.out.println(9 % 2);
-        
+        String num1 = NumeroCalculo.getText();
 
-         
-         
-        
+        if (num1.matches("[0-9,]+")) {
+            list = Arrays.asList(num1.split(","));
+            System.out.println(list);
 
+            CloseFrame();
+            
+            Resultado resultado = new Resultado();
+            resultado.setVisible(true);
+        } else if (!num1.matches("[0-9,]+")) {
+            NumeroCalculo.setText("");
+            JOptionPane.showMessageDialog(null,
+                    "Error: Introduzca solo digitos", "Error Message",
+                    JOptionPane.ERROR_MESSAGE);
+            
+            
 
-    CloseFrame();
-    Resultado resultado = new Resultado();
-    resultado.setVisible(true);
+            
+        }
     }//GEN-LAST:event_btnCalculoActionPerformed
+
+    private void NumeroCalculoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NumeroCalculoKeyTyped
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_NumeroCalculoKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new Ayuda().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
-       final Interfaz panel = new Interfaz();
-       
+
+        final Interfaz panel = new Interfaz();
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Interfaz().setVisible(true);
-                panel.setMaximumSize(new Dimension(400,200));
+                panel.setMaximumSize(new Dimension(400, 200));
             }
+
         });
     }
-    public void CloseFrame(){
-    super.dispose();
-}
+
+    public void consume(java.awt.event.KeyEvent c) {
+        c.consume();
+    }
+
+    public void CloseFrame() {
+        super.dispose();
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField NumeroCalculo;
+    public javax.swing.JTextField NumeroCalculo;
     public javax.swing.JButton btnCalculo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
